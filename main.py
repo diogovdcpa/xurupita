@@ -12,3 +12,8 @@ app.register_blueprint(api_bp)
 def read_root():
     return render_template("index.html")
 
+
+@app.get("/docs")
+def docs():
+    return render_template("docs.html")
+

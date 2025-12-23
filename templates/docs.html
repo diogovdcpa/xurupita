@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Documentação da API de Linguagens de Programação - Xurupita Labs. API gratuita para aprender a consumir APIs REST.">
+    <meta name="keywords" content="api, rest, linguagens programação, tutorial, aprendizado, consumo api">
+
+    <title>API Docs | Xurupita Labs</title>
+    <link rel="icon" type="image/x-icon" href="/public/favicon.ico">
+    <link rel="icon" type="image/png" href="/public/favicon.png">
+    <link rel="stylesheet" href="/static/css/style.css">
+    <style>
+        /* Estilos específicos da documentação */
+        .docs-hero {
+            padding: 8rem 0 4rem;
+            text-align: center;
+        }
+
+        .docs-hero h1 {
+            font-size: clamp(2rem, 5vw, 3rem);
+            margin-bottom: 1rem;
+            background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .docs-hero p {
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto 2rem;
+        }
+
+        .docs-content {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 2rem 4rem;
+        }
+
+        .endpoint-card {
+            background: var(--bg-card);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            backdrop-filter: blur(10px);
+        }
+
+        .endpoint-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .method-badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .method-get {
+            background: rgba(0, 212, 255, 0.2);
+            color: var(--accent-cyan);
+            border: 1px solid rgba(0, 212, 255, 0.3);
+        }
+
+        .endpoint-url {
+            font-family: 'SF Mono', Monaco, 'Cascadia Code', monospace;
+            font-size: 1rem;
+            color: var(--text-primary);
+            background: var(--bg-secondary);
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            word-break: break-all;
+        }
+
+        .endpoint-card h3 {
+            font-size: 1.25rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .endpoint-card>p {
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+        }
+
+        .code-block {
+            background: #0a0a14;
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            overflow: hidden;
+            margin: 1rem 0;
+        }
+
+        .code-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem 1rem;
+            background: var(--bg-secondary);
+            border-bottom: 1px solid var(--glass-border);
+        }
+
+        .code-lang {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+
+        .copy-btn {
+            background: transparent;
+            border: 1px solid var(--glass-border);
+            color: var(--text-secondary);
+            padding: 0.25rem 0.75rem;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .copy-btn:hover {
+            background: var(--accent-blue);
+            color: white;
+            border-color: var(--accent-blue);
+        }
+
+        .code-content {
+            padding: 1rem;
+            overflow-x: auto;
+        }
+
+        .code-content pre {
+            margin: 0;
+            font-family: 'SF Mono', Monaco, 'Cascadia Code', monospace;
+            font-size: 0.85rem;
+            line-height: 1.6;
+            color: #e0e0e0;
+        }
+
+        .code-content .keyword {
+            color: #ff79c6;
+        }
+
+        .code-content .string {
+            color: #f1fa8c;
+        }
+
+        .code-content .function {
+            color: #50fa7b;
+        }
+
+        .code-content .comment {
+            color: #6272a4;
+        }
+
+        .code-content .number {
+            color: #bd93f9;
+        }
+
+        .response-example {
+            background: #0a0a14;
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            padding: 1rem;
+            overflow-x: auto;
+            margin-top: 1rem;
+        }
+
+        .response-example pre {
+            margin: 0;
+            font-family: 'SF Mono', Monaco, 'Cascadia Code', monospace;
+            font-size: 0.8rem;
+            line-height: 1.5;
+            color: #e0e0e0;
+        }
+
+        .params-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+        }
+
+        .params-table th,
+        .params-table td {
+            text-align: left;
+            padding: 0.75rem;
+            border-bottom: 1px solid var(--glass-border);
+        }
+
+        .params-table th {
+            color: var(--text-secondary);
+            font-size: 0.8rem;
+            text-transform: uppercase;
+        }
+
+        .params-table td {
+            color: var(--text-primary);
+            font-size: 0.9rem;
+        }
+
+        .param-name {
+            font-family: 'SF Mono', Monaco, monospace;
+            color: var(--accent-cyan);
+        }
+
+        .param-type {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            background: var(--bg-secondary);
+            padding: 0.125rem 0.5rem;
+            border-radius: 4px;
+        }
+
+        .try-section {
+            background: linear-gradient(135deg, rgba(0, 102, 255, 0.1) 0%, rgba(0, 212, 255, 0.1) 100%);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            padding: 2rem;
+            text-align: center;
+            margin: 3rem 0;
+        }
+
+        .try-section h2 {
+            margin-bottom: 1rem;
+        }
+
+        .try-section p {
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+        }
+
+        .try-links {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .try-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            background: var(--bg-card);
+            border: 1px solid var(--glass-border);
+            border-radius: 8px;
+            color: var(--text-primary);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: var(--transition);
+        }
+
+        .try-link:hover {
+            border-color: var(--accent-blue);
+            background: rgba(0, 102, 255, 0.1);
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.9rem;
+            margin-bottom: 2rem;
+            transition: var(--transition);
+        }
+
+        .back-link:hover {
+            color: var(--accent-cyan);
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            margin: 3rem 0 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--glass-border);
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+
+        .feature-item {
+            background: var(--bg-card);
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            padding: 1.25rem;
+            text-align: center;
+        }
+
+        .feature-item .icon {
+            font-size: 2rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .feature-item h4 {
+            font-size: 0.95rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .feature-item p {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="bg-gradient"></div>
+
+    <header>
+        <nav class="container">
+            <a href="/" class="logo">Xurupita<span>Labs</span></a>
+            <ul class="nav-links">
+                <li><a href="/">Home</a></li>
+                <li><a href="/docs">API Docs</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section class="docs-hero">
+            <div class="container">
+                <span class="hero-badge">
+                    <span class="dot"></span>
+                    API Pública e Gratuita
+                </span>
+                <h1>📚 Documentação da API</h1>
+                <p>Uma API REST gratuita com informações sobre linguagens de programação. Perfeita para aprender a
+                    consumir APIs!</p>
+            </div>
+        </section>
+
+        <div class="docs-content">
+            <a href="/" class="back-link">← Voltar para Home</a>
+
+            <!-- Features -->
+            <div class="feature-grid">
+                <div class="feature-item">
+                    <div class="icon">🆓</div>
+                    <h4>100% Gratuita</h4>
+                    <p>Sem limites de requisições</p>
+                </div>
+                <div class="feature-item">
+                    <div class="icon">🔓</div>
+                    <h4>Sem Autenticação</h4>
+                    <p>Não precisa de API Key</p>
+                </div>
+                <div class="feature-item">
+                    <div class="icon">📱</div>
+                    <h4>CORS Habilitado</h4>
+                    <p>Use em qualquer frontend</p>
+                </div>
+                <div class="feature-item">
+                    <div class="icon">📖</div>
+                    <h4>Ideal para Estudos</h4>
+                    <p>Aprenda na prática</p>
+                </div>
+            </div>
+
+            <h2 class="section-title">🔗 Base URL</h2>
+            <div class="code-block">
+                <div class="code-content">
+                    <pre>https://xurupita.com.br</pre>
+                </div>
+            </div>
+
+            <h2 class="section-title">📍 Endpoints</h2>
+
+            <!-- Endpoint 1: Listar todas -->
+            <div class="endpoint-card">
+                <div class="endpoint-header">
+                    <span class="method-badge method-get">GET</span>
+                    <code class="endpoint-url">/api/languages</code>
+                </div>
+                <h3>Listar Todas as Linguagens</h3>
+                <p>Retorna a lista completa de linguagens de programação com todas as informações.</p>
+
+                <h4 style="margin: 1.5rem 0 1rem; font-size: 0.9rem; color: var(--text-secondary);">Exemplo com
+                    JavaScript (Fetch)</h4>
+                <div class="code-block">
+                    <div class="code-header">
+                        <span class="code-lang">JavaScript</span>
+                        <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+                    </div>
+                    <div class="code-content">
+                        <pre><span class="keyword">fetch</span>(<span class="string">'https://xurupita.com.br/api/languages'</span>)
+  .<span class="function">then</span>(response => response.<span class="function">json</span>())
+  .<span class="function">then</span>(data => {
+    <span class="keyword">console</span>.<span class="function">log</span>(data);
+    <span class="comment">// Exibe todas as linguagens</span>
+    data.data.<span class="function">forEach</span>(lang => {
+      <span class="keyword">console</span>.<span class="function">log</span>(<span class="string">`${lang.name} - Criada em ${lang.year}`</span>);
+    });
+  });</pre>
+                    </div>
+                </div>
+
+                <h4 style="margin: 1.5rem 0 1rem; font-size: 0.9rem; color: var(--text-secondary);">Exemplo com Python
+                </h4>
+                <div class="code-block">
+                    <div class="code-header">
+                        <span class="code-lang">Python</span>
+                        <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+                    </div>
+                    <div class="code-content">
+                        <pre><span class="keyword">import</span> requests
+
+response = requests.<span class="function">get</span>(<span class="string">'https://xurupita.com.br/api/languages'</span>)
+data = response.<span class="function">json</span>()
+
+<span class="keyword">for</span> lang <span class="keyword">in</span> data[<span class="string">'data'</span>]:
+    <span class="function">print</span>(<span class="string">f"{lang['name']} - {lang['creator']}"</span>)</pre>
+                    </div>
+                </div>
+
+                <h4 style="margin: 1.5rem 0 1rem; font-size: 0.9rem; color: var(--text-secondary);">Resposta</h4>
+                <div class="response-example">
+                    <pre>{
+  "data": [
+    {
+      "id": 1,
+      "name": "Python",
+      "description": "Linguagem de programação de alto nível...",
+      "creator": "Guido van Rossum",
+      "year": 1991,
+      "logo": "https://cdn.jsdelivr.net/...",
+      "use_cases": ["IA e Machine Learning", "Análise de Dados", ...]
+    },
+    ...
+  ],
+  "total": 12,
+  "message": "Lista de linguagens de programação"
+}</pre>
+                </div>
+            </div>
+
+            <!-- Endpoint 2: Buscar por ID -->
+            <div class="endpoint-card">
+                <div class="endpoint-header">
+                    <span class="method-badge method-get">GET</span>
+                    <code class="endpoint-url">/api/languages/{id}</code>
+                </div>
+                <h3>Buscar Linguagem por ID</h3>
+                <p>Retorna uma linguagem específica pelo seu ID.</p>
+
+                <table class="params-table">
+                    <thead>
+                        <tr>
+                            <th>Parâmetro</th>
+                            <th>Tipo</th>
+                            <th>Descrição</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><span class="param-name">id</span></td>
+                            <td><span class="param-type">integer</span></td>
+                            <td>ID da linguagem (1-12)</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="code-block">
+                    <div class="code-header">
+                        <span class="code-lang">JavaScript</span>
+                        <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+                    </div>
+                    <div class="code-content">
+                        <pre><span class="comment">// Buscar Python (ID: 1)</span>
+<span class="keyword">fetch</span>(<span class="string">'https://xurupita.com.br/api/languages/1'</span>)
+  .<span class="function">then</span>(response => response.<span class="function">json</span>())
+  .<span class="function">then</span>(data => <span class="keyword">console</span>.<span class="function">log</span>(data.data));</pre>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Endpoint 3: Busca -->
+            <div class="endpoint-card">
+                <div class="endpoint-header">
+                    <span class="method-badge method-get">GET</span>
+                    <code class="endpoint-url">/api/languages/search</code>
+                </div>
+                <h3>Buscar Linguagens</h3>
+                <p>Busca linguagens por nome ou ano de criação.</p>
+
+                <table class="params-table">
+                    <thead>
+                        <tr>
+                            <th>Parâmetro</th>
+                            <th>Tipo</th>
+                            <th>Descrição</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><span class="param-name">q</span></td>
+                            <td><span class="param-type">string</span></td>
+                            <td>Termo de busca (nome da linguagem)</td>
+                        </tr>
+                        <tr>
+                            <td><span class="param-name">year</span></td>
+                            <td><span class="param-type">integer</span></td>
+                            <td>Ano de criação</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="code-block">
+                    <div class="code-header">
+                        <span class="code-lang">JavaScript</span>
+                        <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+                    </div>
+                    <div class="code-content">
+                        <pre><span class="comment">// Buscar linguagens com "java" no nome</span>
+<span class="keyword">fetch</span>(<span class="string">'https://xurupita.com.br/api/languages/search?q=java'</span>)
+  .<span class="function">then</span>(response => response.<span class="function">json</span>())
+  .<span class="function">then</span>(data => <span class="keyword">console</span>.<span class="function">log</span>(data));
+
+<span class="comment">// Buscar linguagens criadas em 1995</span>
+<span class="keyword">fetch</span>(<span class="string">'https://xurupita.com.br/api/languages/search?year=1995'</span>)
+  .<span class="function">then</span>(response => response.<span class="function">json</span>())
+  .<span class="function">then</span>(data => <span class="keyword">console</span>.<span class="function">log</span>(data));</pre>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Try Section -->
+            <div class="try-section">
+                <h2>🚀 Teste Agora!</h2>
+                <p>Clique nos links abaixo para ver a API em ação no seu navegador.</p>
+                <div class="try-links">
+                    <a href="/api/languages" target="_blank" class="try-link">
+                        📋 Ver Todas Linguagens
+                    </a>
+                    <a href="/api/languages/1" target="_blank" class="try-link">
+                        🐍 Ver Python
+                    </a>
+                    <a href="/api/languages/search?q=java" target="_blank" class="try-link">
+                        🔍 Buscar "Java"
+                    </a>
+                </div>
+            </div>
+
+            <h2 class="section-title">📋 Lista de Linguagens Disponíveis</h2>
+            <table class="params-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Linguagem</th>
+                        <th>Ano</th>
+                        <th>Criador</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>Python</td>
+                        <td>1991</td>
+                        <td>Guido van Rossum</td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>JavaScript</td>
+                        <td>1995</td>
+                        <td>Brendan Eich</td>
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td>TypeScript</td>
+                        <td>2012</td>
+                        <td>Microsoft</td>
+                    </tr>
+                    <tr>
+                        <td>4</td>
+                        <td>Java</td>
+                        <td>1995</td>
+                        <td>James Gosling</td>
+                    </tr>
+                    <tr>
+                        <td>5</td>
+                        <td>C#</td>
+                        <td>2000</td>
+                        <td>Microsoft</td>
+                    </tr>
+                    <tr>
+                        <td>6</td>
+                        <td>Go</td>
+                        <td>2009</td>
+                        <td>Google</td>
+                    </tr>
+                    <tr>
+                        <td>7</td>
+                        <td>Rust</td>
+                        <td>2010</td>
+                        <td>Mozilla</td>
+                    </tr>
+                    <tr>
+                        <td>8</td>
+                        <td>Swift</td>
+                        <td>2014</td>
+                        <td>Apple</td>
+                    </tr>
+                    <tr>
+                        <td>9</td>
+                        <td>Kotlin</td>
+                        <td>2011</td>
+                        <td>JetBrains</td>
+                    </tr>
+                    <tr>
+                        <td>10</td>
+                        <td>PHP</td>
+                        <td>1994</td>
+                        <td>Rasmus Lerdorf</td>
+                    </tr>
+                    <tr>
+                        <td>11</td>
+                        <td>Ruby</td>
+                        <td>1995</td>
+                        <td>Yukihiro Matsumoto</td>
+                    </tr>
+                    <tr>
+                        <td>12</td>
+                        <td>C++</td>
+                        <td>1983</td>
+                        <td>Bjarne Stroustrup</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <span class="footer-logo">Xurupita Labs</span>
+                <ul class="footer-links">
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/docs">API Docs</a></li>
+                </ul>
+                <p class="footer-copyright">© 2024 Xurupita Labs. Experimentando o futuro.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        function copyCode(button) {
+            const codeBlock = button.closest('.code-block');
+            const code = codeBlock.querySelector('.code-content pre').textContent;
+            navigator.clipboard.writeText(code).then(() => {
+                button.textContent = 'Copiado!';
+                setTimeout(() => button.textContent = 'Copiar', 2000);
+            });
+        }
+    </script>
+</body>
+
+</html>
