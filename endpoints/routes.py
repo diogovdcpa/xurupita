@@ -4,6 +4,35 @@ from flask import Blueprint, jsonify, request
 api_bp = Blueprint("api", __name__)
 
 
+@api_bp.get("/api")
+def api_index():
+    """Página inicial da API com informações dos endpoints"""
+    return jsonify({
+        "name": "Xurupita Labs API",
+        "version": "1.0.0",
+        "description": "API gratuita com informações sobre linguagens de programação",
+        "documentation": "https://xurupita.com.br/docs",
+        "endpoints": {
+            "list_all": {
+                "method": "GET",
+                "url": "/api/languages",
+                "description": "Lista todas as linguagens de programação"
+            },
+            "get_by_id": {
+                "method": "GET",
+                "url": "/api/languages/{id}",
+                "description": "Retorna uma linguagem específica pelo ID (1-12)"
+            },
+            "search": {
+                "method": "GET",
+                "url": "/api/languages/search",
+                "description": "Busca linguagens por nome (?q=) ou ano (?year=)"
+            }
+        },
+        "total_languages": 12
+    })
+
+
 # Base de dados de linguagens de programação
 LANGUAGES = [
     {
